@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ez4gamerZ! | Portfolio</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        /* RESET & BASE */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            /* Reverted to original gradient for the body background */
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: white;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Canvas Background Styling */
+        #backgroundCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Ensures it stays behind all content */
+        }
+
+        /* HEADER */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            margin: 1rem;
+            background-color: rgba(0, 0, 0, 0.7);
+            border: 3px solid yellow;
+            border-radius: 30px 30px 10px 10px;
+            user-select: none;
+            z-index: 1000;
+            position: sticky;
+            top: 0;
+        }
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+        .logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            /* Fallback for image loading errors */
+            onerror: "this.onerror=null;this.src='https://placehold.co/40x40/374151/9ca3af?text=Logo';"
+        }
+        .brand-text {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: white;
+        }
+        nav a {
+            color: white;
+            margin-left: 1.5rem;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+        nav a:hover {
+            color: #ffd700;
+        }
+
+        /* TYPEWRITER */
+        .typewrite > .wrap {
+            border-right: 0.08em solid #fff;
+        }
+
+        /* BOXES */
+        .glass-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 3px solid yellow;
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+            transition: all 0.8s ease;
+            user-select: none;
+        }
+
+        /* HIDE ON LOAD & SHOW ON SCROLL */
+        .hidden-box {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: all 0.8s ease;
+        }
+        .visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* SPARKLES */
+        .sparkle {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, #fff, transparent);
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: sparkle-fade 2s infinite alternate;
+            pointer-events: none;
+        }
+        .sparkle-tl {
+            top: 10px;
+            left: 10px;
+        }
+        .sparkle-br {
+            bottom: 10px;
+            right: 10px;
+        }
+        .minecraft-theme {
+            background: radial-gradient(circle, #00ff00, transparent);
+        }
+        @keyframes sparkle-fade {
+            0% { opacity: 0.3; transform: scale(1); }
+            100% { opacity: 1; transform: scale(1.3); }
+        }
+
+        /* BIO BOX - About - with 3D tilt effect */
+        .bio-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            animation: glow 2s infinite alternate;
+            flex-wrap: wrap;
+            perspective: 800px;
+            cursor: grab;
+            will-change: transform;
+            transition: box-shadow 0.3s ease;
+        }
+        .bio-box:active {
+            cursor: grabbing;
+        }
+        .bio-box .avatar {
+            width: 150px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            user-select: none;
+            pointer-events: none;
+            /* Fallback for image loading errors */
+            onerror: "this.onerror=null;this.src='https://placehold.co/150x150/374151/9ca3af?text=Avatar';"
+        }
+        .bio-text {
+            flex-grow: 1; /* Allows it to take available space */
+            min-width: 0; /* Important for flex items with nowrap children */
+            user-select: none;
+            pointer-events: none;
+        }
+        .yellow-title {
+            color: #ffd700;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            user-select: text;
+            white-space: nowrap; /* Forces text onto a single line */
+            overflow: hidden;    /* Hides overflowing content */
+            text-overflow: ellipsis; /* Adds "..." for overflow */
+        }
+        @keyframes glow {
+            0% { box-shadow: 0 0 10px #9b59b6; }
+            100% { box-shadow: 0 0 25px #9b59b6; }
+        }
+
+        /* SOCIALS */
+        .socials-box {
+            transform: scale(1.03);
+        }
+        .center-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            user-select: none;
+        }
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(120px, 1fr));
+            gap: 0.5rem;
+            justify-items: center;
+            padding: 0 1rem;
+        }
+        .button-grid.tight {
+            gap: 0.5rem;
+        }
+        .button-grid a,
+        .wallet-buttons button {
+            background-color: rgba(128, 0, 128, 0.1);
+            border: 2px solid yellow;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+        }
+        .button-grid a:hover,
+        .wallet-buttons button:hover {
+            color: purple;
+            background-color: white;
+            transform: scale(1.1);
+        }
+
+        /* MINECRAFT */
+        .crypto-box {
+            text-align: center;
+            animation: glow 2s infinite alternate;
+            position: relative;
+            transition: box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+        .crypto-box:hover {
+            box-shadow: 0 0 40px 10px rgba(255, 255, 0, 0.6);
+            border-color: #ffd700;
+        }
+        /* Minecraft elements on corners - REMOVED */
+        /* The previous ::before and ::after pseudo-elements have been removed */
+
+        .wallet-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+        .crypto-box p {
+            margin-top: 1rem;
+            font-weight: bold;
+            user-select: none;
+        }
+        .hidden-msg {
+            display: none;
+        }
+
+        /* SLIDER */
+        .slider-container {
+            overflow-x: hidden;
+            white-space: nowrap;
+            padding: 0.5rem;
+            user-select: none;
+        }
+        .slider-track {
+            display: flex;
+            gap: 1.5rem;
+            padding: 1rem 0;
+            animation: slideLoop 15s linear infinite;
+        }
+        @keyframes slideLoop {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        .slider-track img {
+            height: auto;
+            width: auto;
+            max-height: 100px;
+            object-fit: contain;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 8px;
+            cursor: pointer;
+            /* Fallback for image loading errors */
+            onerror: "this.onerror=null;this.src='https://placehold.co/100x100/374151/9ca3af?text=Img';"
+        }
+        .slider-track img:hover {
+            transform: scale(1.3);
+            box-shadow: 0 0 15px #fff;
+        }
+
+        /* FOOTER */
+        footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 1rem 2rem;
+            margin: 1rem;
+            border: 3px solid yellow;
+            border-radius: 10px 10px 30px 30px;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: #ccc;
+            font-size: 0.9rem;
+            user-select: none;
+        }
+        .footer-left {
+            flex: 1;
+            min-width: 200px;
+        }
+        .footer-center {
+            flex: 1;
+            text-align: center;
+            min-width: 200px;
+        }
+        .footer-right {
+            flex: 1;
+            text-align: right;
+            min-width: 200px;
+        }
+        .footer-right a {
+            color: #ccc;
+            margin-left: 1rem;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+        .footer-right a:hover {
+            color: #ffd700;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            header, footer {
+                flex-direction: column;
+                text-align: center;
+                padding: 1rem;
+            }
+            nav a {
+                margin: 0.5rem 0.8rem;
+            }
+            .logo-container {
+                margin-bottom: 1rem;
+            }
+            .footer-left, .footer-center, .footer-right {
+                text-align: center;
+                margin-bottom: 0.5rem;
+            }
+            .bio-box {
+                flex-direction: column;
+                text-align: center;
+            }
+            .bio-box .avatar {
+                margin-bottom: 1rem;
+            }
+            .button-grid {
+                grid-template-columns: 1fr; /* Stack buttons on small screens */
+            }
+            .yellow-title {
+                font-size: 1.2rem; /* Smaller font size for mobile to fit on one line */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="backgroundCanvas"></canvas>
+
+    <header>
+        <div class="logo-container">
+            <img src="https://i.imgur.com/JVpmvwm.jpeg" alt="Astrozex Logo" class="logo" onerror="this.onerror=null;this.src='https://placehold.co/40x40/374151/9ca3af?text=Logo';" />
+            <span class="brand-text">Ez4gamerZ!</span>
+        </div>
+        <nav>
+            <a href="#minecraft">Join EmporiumX</a>
+            <a href="#socials">My Socials</a>
+        </nav>
+    </header>
+
+    <section id="bio" class="glass-box bio-box hidden-box">
+        <div class="sparkle sparkle-tl"></div>
+        <div class="sparkle sparkle-br"></div>
+        <img src="https://i.imgur.com/JVpmvwm.jpeg" class="avatar" alt="Ez4gamerZ! Avatar" onerror="this.onerror=null;this.src='https://placehold.co/150x150/374151/9ca3af?text=Avatar';"/>
+        <div class="bio-text">
+            <h2 class="yellow-title">
+                Hey There! I’m Ez4gamerZ! | I'm a <span class="typewrite" data-period="2000" data-type='[ "Discord Bot Developer", "Minecraft Server Developer", "Designer (Beginning)" ]'></span>
+            </h2>
+            <p>I like building Custom Discord Bots, Minecraft Servers, Creative Designing, Playing Video Games, etc.<br>Feel free to contact me!!</p>
+        </div>
+    </section>
+
+    <section id="socials" class="glass-box socials-box hidden-box">
+        <h2 class="center-title">My Socials</h2>
+        <div class="button-grid tight">
+            <a href="https://discord.gg/Wk4bfHdQjS" target="_blank" rel="noopener noreferrer">Discord</a>
+            <a href="Soon..." target="_blank" rel="noopener noreferrer">YouTube</a>
+            <a href="https://www.twitch.tv/ez4gamerz_so2" target="_blank" rel="noopener noreferrer">Twitch</a>
+            <a href="Soon..." target="_blank" rel="noopener noreferrer">Twitter</a>
+        </div>
+    </section>
+
+    <section id="minecraft" class="glass-box crypto-box hidden-box">
+        <div class="sparkle sparkle-tl minecraft-theme"></div>
+        <div class="sparkle sparkle-br minecraft-theme"></div>
+        <h2 class="center-title">Join EmporiumX | Trusted & Legit Shop</h2>
+        <div class="wallet-buttons">
+            <button onclick="showMsg('join')">Join Now</button>
+            <button onclick="showMsg('info')">More Info</button>
+        </div>
+        <p id="join" class="hidden-msg">https://discord.gg/empx</p>
+        <p id="info" class="hidden-msg">Unavailable</p>
+    </section>
+
+    <section id="studios" class="glass-box studios-box hidden-box">
+        <h2 class="center-title">Get everything at one place</h2>
+        <div class="slider-container">
+            <div class="slider-track">
+                <img src="https://i.imgur.com/nsxPxKy.png" alt="1" onerror="this.onerror=null;this.src='https://placehold.co/100x100/374151/9ca3af?text=Img1';"/>
+                <img src="https://i.imgur.com/n4XvAEX.png" alt="2" onerror="this.onerror=null;this.src='https://placehold.co/100x100/374151/9ca3af?text=Img2';"/>
+                <img src="https://i.imgur.com/z87LttM.png" alt="3" onerror="this.onerror=null;this.src='https://placehold.co/100x100/374151/9ca3af?text=Img3';"/>
+                <img src="https://i.imgur.com/KPST07A.png" alt="4" onerror="this.onerror=null;this.src='https://placehold.co/100x100/374151/9ca3af?text=Img4';"/>
+                <img src="https://i.imgur.com/bUlKghC.png" alt="5" onerror="this.onerror=null;this.src='https://placehold.co/100x100/374151/9ca3af?text=Img5';"/>
+                <img src="https://i.imgur.com/6GW5rVh.png" alt="6" onerror="this.onerror=null;this.src='https://placehold.co/100x100/374151/9ca3af?text=Img6';"/>
+                <img src="https://i.imgur.com/jD99tKR.png" alt="7" onerror="this.onerror=null;this.src='https://placehold.co/100x100/374151/9ca3af?text=Img7';"/>
+                <img src="https://i.imgur.com/aATI8OY.png" alt="8" onerror="this.onerror=null;this.src='https://placehold.co/100x100/374151/9ca3af?text=Img8';"/>
+                <img src="https://i.imgur.com/t7L2VZm.png" alt="9" onerror="this.onerror=null;this.src='https://placehold.co/100x100/374151/9ca3af?text=Img9';"/>
+                <img src="https://i.imgur.com/fZSqgNO.png" alt="10" onerror="this.onerror=null;this.src='https://placehold.co/100x100/374151/9ca3af?text=Img10';"/>
+                <img src="https://i.imgur.com/nsxPxKy.png" alt="1b" onerror="this.onerror=null;this.src='https://placehold.co/100x100/374151/9ca3af?text=Img1b';"/>
+                <img src="https://i.imgur.com/n4XvAEX.png" alt="2b" onerror="this.onerror=null;this.src='https://placehold.co/100x100/374151/9ca3af?text=Img2b';"/>
+                <img src="https://i.imgur.com/z87LttM.png" alt="3b" onerror="this.onerror=null;this.src='https://placehold.co/100x100/374151/9ca3af?text=Img3b';"/>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-left">© 2025 Ez4gamerZ! | All rights reserved</div>
+        <div class="footer-center" id="currentDate"></div>
+        <div class="footer-right">
+            <a href="https://discord.gg/Wkjb1sy7Qba" target="_blank" rel="noopener noreferrer"><i class="fab fa-discord"></i></a>
+            <a href="Soon....." target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.twitch.tv/ez4gamerz_so2" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitch"></i></a>
+            <a href="Soon...." target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+        </div>
+    </footer>
+
+    <script>
+        // Typewriter animation
+        const txtElement = document.querySelector(".typewrite");
+        const words = JSON.parse(txtElement.getAttribute("data-type"));
+        const wait = txtElement.getAttribute("data-period");
+        let txt = "";
+        let wordIndex = 0;
+        let isDeleting = false;
+
+        function type() {
+            const current = wordIndex % words.length;
+            const fullTxt = words[current];
+
+            txt = isDeleting ? fullTxt.substring(0, txt.length - 1) : fullTxt.substring(0, txt.length + 1);
+            txtElement.innerHTML = `<span class="wrap">${txt}</span>`;
+
+            let typeSpeed = isDeleting ? 60 : 120;
+
+            if (!isDeleting && txt === fullTxt) {
+                typeSpeed = wait;
+                isDeleting = true;
+            } else if (isDeleting && txt === "") {
+                isDeleting = false;
+                wordIndex++;
+                typeSpeed = 300;
+            }
+
+            setTimeout(type, typeSpeed);
+        }
+        document.addEventListener("DOMContentLoaded", type);
+
+        // Show Minecraft button messages
+        function showMsg(id) {
+            document.getElementById("join").style.display = "none"; // Changed from 'play' to 'join'
+            document.getElementById("info").style.display = "none";
+            document.getElementById(id).style.display = "block";
+        }
+
+        // Intersection observer for fade-in on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.hidden-box').forEach(el => observer.observe(el));
+
+        // Set current date in footer center
+        document.getElementById("currentDate").innerText = new Date().toLocaleDateString();
+
+        // About box 3D tilt effect
+        const bioBox = document.querySelector('.bio-box');
+
+        bioBox.addEventListener('mousemove', e => {
+            const rect = bioBox.getBoundingClientRect();
+            const x = e.clientX - rect.left; // mouse x inside box
+            const y = e.clientY - rect.top;  // mouse y inside box
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+
+            const rotateX = ((y - centerY) / centerY) * 10; // max 10deg rotateX
+            const rotateY = ((x - centerX) / centerX) * 10; // max 10deg rotateY
+
+            bioBox.style.transform = `perspective(800px) rotateX(${-rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
+            bioBox.style.boxShadow = `${-rotateY * 1.5}px ${rotateX * 1.5}px 20px rgba(255, 215, 0, 0.6)`;
+        });
+
+        bioBox.addEventListener('mouseleave', () => {
+            bioBox.style.transform = 'none';
+            bioBox.style.boxShadow = 'none';
+        });
+    </script>
+
+    <script>
+        // Canvas background animation
+        const canvas = document.getElementById('backgroundCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        const maxParticles = 100; // Number of particles
+        const connectionDistance = 150; // Max distance for lines
+
+        // Function to set canvas dimensions
+        function setCanvasDimensions() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        // Particle class
+        class Particle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 3 + 1; // Random size between 1 and 4
+                this.speedX = Math.random() * 0.5 - 0.25; // Random speed between -0.25 and 0.25
+                this.speedY = Math.random() * 0.5 - 0.25; // Random speed between -0.25 and 0.25
+                this.color = 'rgba(100, 200, 255, 0.8)'; // Light blue/cyan color
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                // Bounce off edges
+                if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
+                if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+            }
+
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        // Initialize particles
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < maxParticles; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                particles.push(new Particle(x, y));
+            }
+        }
+
+        // Connect particles with lines
+        function connectParticles() {
+            for (let a = 0; a < particles.length; a++) {
+                for (let b = a; b < particles.length; b++) {
+                    const dx = particles[a].x - particles[b].x;
+                    const dy = particles[a].y - particles[b].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < connectionDistance) {
+                        ctx.strokeStyle = `rgba(100, 200, 255, ${1 - (distance / connectionDistance)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[a].x, particles[a].y);
+                        ctx.lineTo(particles[b].x, particles[b].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        // Animation loop
+        function animateCanvas() {
+            // Fill with a semi-transparent dark blue to create a fading trail and let the body background show
+            ctx.fillStyle = 'rgba(15, 12, 41, 0.1)'; /* Based on #0f0c29 with transparency */
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+            }
+            connectParticles();
+
+            requestAnimationFrame(animateCanvas);
+        }
+
+        // Event Listeners
+        window.addEventListener('load', () => {
+            setCanvasDimensions();
+            initParticles();
+            animateCanvas();
+        });
+
+        window.addEventListener('resize', () => {
+            setCanvasDimensions();
+            // Re-initialize particles to distribute them evenly on new size
+            initParticles();
+        });
+    </script>
+
+</body>
+</html>
