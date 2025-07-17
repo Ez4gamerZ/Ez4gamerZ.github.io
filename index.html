@@ -40,7 +40,7 @@
             padding: 1rem 2rem;
             margin: 1rem;
             background-color: rgba(0, 0, 0, 0.7);
-            border: 3px solid yellow;
+            border: 3px solid #64c8ff; /* Changed from yellow to light blue */
             border-radius: 30px 30px 10px 10px;
             user-select: none;
             z-index: 1000;
@@ -78,7 +78,7 @@
             transition: color 0.3s ease;
         }
         nav a:hover {
-            color: #ffd700;
+            color: #64c8ff; /* Changed from #ffd700 to light blue */
         }
 
         /* TYPEWRITER */
@@ -89,7 +89,7 @@
         /* BOXES */
         .glass-box {
             background: rgba(255, 255, 255, 0.05);
-            border: 3px solid yellow;
+            border: 3px solid #64c8ff; /* Changed from yellow to light blue */
             border-radius: 20px;
             padding: 2rem;
             margin: 2rem;
@@ -170,7 +170,7 @@
             text-align: left; /* Default to left-align */
         }
         .yellow-title {
-            color: #ffd700;
+            color: #64c8ff; /* Changed from #ffd700 to light blue */
             font-size: 1.8rem;
             margin-bottom: 0.5rem;
             user-select: text;
@@ -210,7 +210,7 @@
         .button-grid a,
         .wallet-buttons button {
             background-color: rgba(128, 0, 128, 0.1);
-            border: 2px solid yellow;
+            border: 2px solid #64c8ff; /* Changed from yellow to light blue */
             color: white;
             padding: 0.75rem 1.5rem;
             text-decoration: none;
@@ -236,8 +236,8 @@
             transition: box-shadow 0.3s ease, border-color 0.3s ease;
         }
         .crypto-box:hover {
-            box-shadow: 0 0 40px 10px rgba(255, 255, 0, 0.6);
-            border-color: #ffd700;
+            box-shadow: 0 0 40px 10px rgba(100, 200, 255, 0.6); /* Changed from yellow to light blue */
+            border-color: #64c8ff; /* Changed from #ffd700 to light blue */
         }
         /* Minecraft elements on corners - REMOVED */
         /* The previous ::before and ::after pseudo-elements have been removed */
@@ -287,8 +287,8 @@
             onerror: "this.onerror=null;this.src='https://placehold.co/100x100/374151/9ca3af?text=Img';"
         }
         .slider-track img:hover {
+            box-shadow: 0 0 15px #64c8ff; /* Changed from #fff to light blue */
             transform: scale(1.3);
-            box-shadow: 0 0 15px #fff;
         }
 
         /* FOOTER */
@@ -299,7 +299,7 @@
             flex-wrap: wrap;
             padding: 1rem 2rem;
             margin: 1rem;
-            border: 3px solid yellow;
+            border: 3px solid #64c8ff; /* Changed from yellow to light blue */
             border-radius: 10px 10px 30px 30px;
             background-color: rgba(0, 0, 0, 0.6);
             color: #ccc;
@@ -327,7 +327,7 @@
             transition: color 0.3s ease;
         }
         .footer-right a:hover {
-            color: #ffd700;
+            color: #64c8ff; /* Changed from #ffd700 to light blue */
         }
 
         /* Responsive adjustments for screens up to 768px (tablets and smaller) */
@@ -389,6 +389,7 @@
                 word-break: break-word; /* Ensure long words break to fit */
             }
             .yellow-title {
+                color: #64c8ff; /* Changed from #ffd700 to light blue */
                 font-size: 1.1rem; /* Adjusted font size for better wrapping on mobile */
                 white-space: normal; /* Allow wrapping on mobile */
                 text-overflow: clip; /* No ellipsis if wrapping is allowed */
@@ -459,7 +460,7 @@
         <img src="https://i.imgur.com/JVpmvwm.jpeg" class="avatar" alt="Ez4gamerZ! Avatar" onerror="this.onerror=null;this.src='https://placehold.co/150x150/374151/9ca3af?text=Avatar';"/>
         <div class="bio-text">
             <h2 class="yellow-title">
-                Hey There! I’m Ez4gamerZ! | I'm a <span class="typewrite" data-period="2000" data-type='[ "Discord Bot Developer", "Minecraft Server Developer", "Designer (Beginner)" ]'></span>
+                Hey There! I’m Ez4gamerZ! | I'm a <span class="typewrite" data-period="2000" data-type='[ "Discord Bot Developer", "Minecraft Server Developer", "Designer (Beginning)" ]'></span>
             </h2>
             <p>I like building Custom Discord Bots, Minecraft Servers, Creative Designing, Playing Video Games, etc.<br>Feel free to contact me!!</p>
         </div>
@@ -471,7 +472,7 @@
             <a href="https://discord.gg/Wk4bfHdQjS" target="_blank" rel="noopener noreferrer">Discord</a>
             <a href="Soon..." target="_blank" rel="noopener noreferrer">YouTube</a>
             <a href="https://www.twitch.tv/ez4gamerz_so2" target="_blank" rel="noopener noreferrer">Twitch</a>
-            <a href="Soon..." target="_blank" rel="noopener noreferrer">Twitter</a>
+            <a href="Soon...." target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
         </div>
     </section>
 
@@ -587,7 +588,7 @@
             const rotateY = ((x - centerX) / centerX) * 10; // max 10deg rotateY
 
             bioBox.style.transform = `perspective(800px) rotateX(${-rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
-            bioBox.style.boxShadow = `${-rotateY * 1.5}px ${rotateX * 1.5}px 20px rgba(255, 215, 0, 0.6)`;
+            bioBox.style.boxShadow = `${-rotateY * 1.5}px ${rotateX * 1.5}px 20px rgba(100, 200, 255, 0.6)`; /* Updated shadow color */
         });
 
         bioBox.addEventListener('mouseleave', () => {
