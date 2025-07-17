@@ -16,10 +16,9 @@
         }
         body {
             font-family: 'Segoe UI', sans-serif;
-            /* Reverted to original gradient for the body background */
             background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
             color: white;
-            overflow-x: hidden;
+            overflow-x: hidden; /* Prevent horizontal scroll */
             min-height: 100vh;
         }
 
@@ -64,6 +63,12 @@
             font-size: 1.3rem;
             font-weight: bold;
             color: white;
+        }
+        nav {
+            display: flex; /* Make nav a flex container */
+            flex-wrap: wrap; /* Allow nav items to wrap */
+            justify-content: center; /* Center nav items when wrapped */
+            margin-left: 1.5rem; /* Keep original margin for larger screens */
         }
         nav a {
             color: white;
@@ -139,7 +144,7 @@
             align-items: center;
             gap: 2rem;
             animation: glow 2s infinite alternate;
-            flex-wrap: wrap;
+            flex-wrap: wrap; /* Allow content to wrap on smaller screens */
             perspective: 800px;
             cursor: grab;
             will-change: transform;
@@ -162,15 +167,20 @@
             min-width: 0; /* Important for flex items with nowrap children */
             user-select: none;
             pointer-events: none;
+            text-align: left; /* Default to left-align */
         }
         .yellow-title {
             color: #ffd700;
             font-size: 1.8rem;
             margin-bottom: 0.5rem;
             user-select: text;
-            white-space: nowrap; /* Forces text onto a single line */
-            overflow: hidden;    /* Hides overflowing content */
-            text-overflow: ellipsis; /* Adds "..." for overflow */
+            /* Removed white-space: nowrap; and text-overflow: ellipsis; for desktop */
+            /* These will be re-applied only for larger screens in media queries */
+        }
+        /* Adjusted font size for the paragraph in bio-text */
+        .bio-text p {
+            font-size: 0.9rem; /* Slightly smaller for better fit */
+            line-height: 1.4; /* Improve readability */
         }
         @keyframes glow {
             0% { box-shadow: 0 0 10px #9b59b6; }
@@ -320,18 +330,40 @@
             color: #ffd700;
         }
 
-        /* Responsive adjustments */
+        /* Responsive adjustments for screens up to 768px (tablets and smaller) */
         @media (max-width: 768px) {
-            header, footer {
+            header {
                 flex-direction: column;
                 text-align: center;
-                padding: 1rem;
+                padding: 0.8rem 1rem; /* Adjusted padding */
+                margin: 0.5rem; /* Adjusted margin */
+            }
+            header .logo-container {
+                width: 100%;
+                justify-content: center;
+                margin-bottom: 0.8rem; /* Adjusted margin */
+            }
+            header .brand-text {
+                font-size: 1.2rem; /* Slightly smaller brand text */
+            }
+            /* Adjusted nav for mobile: now wraps and centers instead of stacking */
+            header nav {
+                width: 100%;
+                margin-left: 0;
+                flex-direction: row; /* Keep row for wrapping */
+                flex-wrap: wrap; /* Allow wrapping */
+                justify-content: center; /* Center items when wrapped */
+                align-items: center; /* Align items to center vertically */
             }
             nav a {
-                margin: 0.5rem 0.8rem;
+                margin: 0.3rem 0.5rem; /* More horizontal spacing for wrapped links */
+                font-size: 0.9rem; /* Smaller nav link font size */
             }
-            .logo-container {
-                margin-bottom: 1rem;
+            footer {
+                flex-direction: column;
+                text-align: center;
+                padding: 0.8rem 1rem; /* Adjusted padding */
+                margin: 0.5rem; /* Adjusted margin */
             }
             .footer-left, .footer-center, .footer-right {
                 text-align: center;
@@ -339,16 +371,69 @@
             }
             .bio-box {
                 flex-direction: column;
-                text-align: center;
+                align-items: flex-start; /* ALIGN ALL CHILDREN TO THE LEFT */
+                padding: 1rem; /* Reduced padding for more content space */
+                gap: 0.8rem; /* Reduced gap on mobile */
             }
             .bio-box .avatar {
-                margin-bottom: 1rem;
+                width: 90px; /* Smaller avatar on mobile */
+                height: 90px;
+                margin-bottom: 0.8rem;
+                align-self: flex-start; /* Align avatar to the left */
+            }
+            .bio-text {
+                text-align: left; /* Ensure text is left-aligned */
+                width: 100%; /* Ensure bio-text takes full available width */
+            }
+            .bio-text p {
+                word-break: break-word; /* Ensure long words break to fit */
+            }
+            .yellow-title {
+                font-size: 1.1rem; /* Adjusted font size for better wrapping on mobile */
+                white-space: normal; /* Allow wrapping on mobile */
+                text-overflow: clip; /* No ellipsis if wrapping is allowed */
+                word-break: break-word; /* Ensure long words break to fit */
             }
             .button-grid {
                 grid-template-columns: 1fr; /* Stack buttons on small screens */
             }
+        }
+
+        /* Further refinement for very small screens (e.g., iPhone SE, typically < 375px) */
+        @media (max-width: 375px) {
             .yellow-title {
-                font-size: 1.2rem; /* Smaller font size for mobile to fit on one line */
+                font-size: 0.9rem; /* Even smaller font size for very small screens */
+            }
+            .bio-text p {
+                font-size: 0.75rem; /* Smaller paragraph text */
+            }
+            .glass-box {
+                margin: 0.2rem; /* Reduce margin on very small screens */
+                padding: 0.6rem; /* Reduce padding on very small screens */
+            }
+            header, footer {
+                padding: 0.3rem;
+                margin: 0.3rem;
+            }
+            .brand-text {
+                font-size: 0.85rem;
+            }
+            nav a {
+                font-size: 0.7rem;
+                margin: 0.15rem 0.2rem; /* Even tighter spacing for nav links */
+            }
+            .bio-box .avatar {
+                width: 70px; /* Smaller avatar on very small screens */
+                height: 70px;
+            }
+        }
+
+        /* Re-apply nowrap and ellipsis for larger screens */
+        @media (min-width: 769px) {
+            .yellow-title {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
         }
     </style>
@@ -359,7 +444,7 @@
 
     <header>
         <div class="logo-container">
-            <img src="https://i.imgur.com/JVpmvwm.jpeg" alt="Astrozex Logo" class="logo" onerror="this.onerror=null;this.src='https://placehold.co/40x40/374151/9ca3af?text=Logo';" />
+            <img src="https://i.imgur.com/JVpmvwm.jpeg" alt="Ez4gamerZ! Logo" class="logo" onerror="this.onerror=null;this.src='https://placehold.co/40x40/374151/9ca3af?text=Logo';" />
             <span class="brand-text">Ez4gamerZ!</span>
         </div>
         <nav>
@@ -406,19 +491,21 @@
         <h2 class="center-title">Get everything at one place</h2>
         <div class="slider-container">
             <div class="slider-track">
-                <img src="https://i.imgur.com/nsxPxKy.png" alt="1" onerror="this.onerror=null;this.src='https://placehold.co/100x100/374151/9ca3af?text=Img1';"/>
-                <img src="https://i.imgur.com/n4XvAEX.png" alt="2" onerror="this.onerror=null;this.src='https://placehold.co/100x100/374151/9ca3af?text=Img2';"/>
-                <img src="https://i.imgur.com/z87LttM.png" alt="3" onerror="this.onerror=null;this.src='https://placehold.co/100x100/374151/9ca3af?text=Img3';"/>
-                <img src="https://i.imgur.com/KPST07A.png" alt="4" onerror="this.onerror=null;this.src='https://placehold.co/100x100/374151/9ca3af?text=Img4';"/>
-                <img src="https://i.imgur.com/bUlKghC.png" alt="5" onerror="this.onerror=null;this.src='https://placehold.co/100x100/374151/9ca3af?text=Img5';"/>
-                <img src="https://i.imgur.com/6GW5rVh.png" alt="6" onerror="this.onerror=null;this.src='https://placehold.co/100x100/374151/9ca3af?text=Img6';"/>
-                <img src="https://i.imgur.com/jD99tKR.png" alt="7" onerror="this.onerror=null;this.src='https://placehold.co/100x100/374151/9ca3af?text=Img7';"/>
-                <img src="https://i.imgur.com/aATI8OY.png" alt="8" onerror="this.onerror=null;this.src='https://placehold.co/100x100/374151/9ca3af?text=Img8';"/>
-                <img src="https://i.imgur.com/t7L2VZm.png" alt="9" onerror="this.onerror=null;this.src='https://placehold.co/100x100/374151/9ca3af?text=Img9';"/>
-                <img src="https://i.imgur.com/fZSqgNO.png" alt="10" onerror="this.onerror=null;this.src='https://placehold.co/100x100/374151/9ca3af?text=Img10';"/>
-                <img src="https://i.imgur.com/nsxPxKy.png" alt="1b" onerror="this.onerror=null;this.src='https://placehold.co/100x100/374151/9ca3af?text=Img1b';"/>
-                <img src="https://i.imgur.com/n4XvAEX.png" alt="2b" onerror="this.onerror=null;this.src='https://placehold.co/100x100/374151/9ca3af?text=Img2b';"/>
-                <img src="https://i.imgur.com/z87LttM.png" alt="3b" onerror="this.onerror=null;this.src='https://placehold.co/100x100/374151/9ca3af?text=Img3b';"/>
+                <!-- Updated image sources based on your previous messages and the provided image -->
+                <img src="https://i.imgur.com/nsxPxKy.png" alt="Digital Products" onerror="this.onerror=null;this.src='https://placehold.co/200x100/302b63/ffd700?text=Product+1';"/>
+                <img src="https://i.imgur.com/n4XvAEX.png" alt="Digital Keys/Cards" onerror="this.onerror=null;this.src='https://placehold.co/200x100/302b63/ffd700?text=Product+2';"/>
+                <img src="https://i.imgur.com/z87LttM.png" alt="Hoichoi Streaming" onerror="this.onerror=null;this.src='https://placehold.co/200x100/302b63/ffd700?text=Hoichoi';"/>
+                <img src="https://i.imgur.com/KPST07A.png" alt="Currency Exchange" onerror="this.onerror=null;this.src='https://placehold.co/200x100/302b63/ffd700?text=Currency';"/>
+                <img src="https://i.imgur.com/bUlKghC.png" alt="Crunchyroll Premium" onerror="this.onerror=null;this.src='https://placehold.co/200x100/302b63/ffd700?text=Crunchyroll';"/>
+                <img src="https://i.imgur.com/6GW5rVh.png" alt="Product 6" onerror="this.onerror=null;this.src='https://placehold.co/200x100/302b63/ffd700?text=Product+6';"/>
+                <img src="https://i.imgur.com/jD99tKR.png" alt="Product 7" onerror="this.onerror=null;this.src='https://placehold.co/200x100/302b63/ffd700?text=Product+7';"/>
+                <img src="https://i.imgur.com/aATI8OY.png" alt="Product 8" onerror="this.onerror=null;this.src='https://placehold.co/200x100/302b63/ffd700?text=Product+8';"/>
+                <img src="https://i.imgur.com/t7L2VZm.png" alt="Product 9" onerror="this.onerror=null;this.src='https://placehold.co/200x100/302b63/ffd700?text=Product+9';"/>
+                <img src="https://i.imgur.com/fZSqgNO.png" alt="Product 10" onerror="this.onerror=null;this.src='https://placehold.co/200x100/302b63/ffd700?text=Product+10';"/>
+                <!-- Duplicates for seamless loop -->
+                <img src="https://i.imgur.com/nsxPxKy.png" alt="Digital Products (Dup)" onerror="this.onerror=null;this.src='https://placehold.co/200x100/302b63/ffd700?text=Product+1D';"/>
+                <img src="https://i.imgur.com/n4XvAEX.png" alt="Digital Keys/Cards (Dup)" onerror="this.onerror=null;this.src='https://placehold.co/200x100/302b63/ffd700?text=Product+2D';"/>
+                <img src="https://i.imgur.com/z87LttM.png" alt="Hoichoi Streaming (Dup)" onerror="this.onerror=null;this.src='https://placehold.co/200x100/302b63/ffd700?text=HoichoiD';"/>
             </div>
         </div>
     </section>
